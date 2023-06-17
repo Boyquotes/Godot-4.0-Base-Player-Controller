@@ -1,0 +1,35 @@
+[gd_scene load_steps=9 format=3 uid="uid://co4rhaktm78a1"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ndk5g"]
+[ext_resource type="Script" path="res://Scripts/Footstep_manager.gd" id="2_isms1"]
+[ext_resource type="AudioStream" uid="uid://c1wlkbp1nfttd" path="res://Sounds/Footstep_1.wav" id="3_w6ot1"]
+[ext_resource type="AudioStream" uid="uid://bbysxf5m134hg" path="res://Sounds/Footstep_2.wav" id="4_j28ox"]
+[ext_resource type="AudioStream" uid="uid://3gcvstleyd2u" path="res://Sounds/Footstep_3.wav" id="5_bhpsq"]
+[ext_resource type="AudioStream" uid="uid://d1mrxip2fq77w" path="res://Sounds/Footstep_4.wav" id="6_gu0rq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wydro"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xc2g5"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_ndk5g")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67939, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wydro")
+
+[node name="Mesh" type="MeshInstance3D" parent="Body"]
+mesh = SubResource("CapsuleMesh_xc2g5")
+skeleton = NodePath("../..")
+
+[node name="Footstep_manager" type="Node3D" parent="." node_paths=PackedStringArray("ground_pos")]
+script = ExtResource("2_isms1")
+footstep_sounds = Array[AudioStreamWAV]([ExtResource("3_w6ot1"), ExtResource("4_j28ox"), ExtResource("5_bhpsq"), ExtResource("6_gu0rq")])
+ground_pos = NodePath("GroundPosition")
+
+[node name="GroundPosition" type="Marker3D" parent="Footstep_manager"]
